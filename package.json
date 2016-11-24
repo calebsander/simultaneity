@@ -1,0 +1,25 @@
+{
+	"name": "simultaneity",
+	"version": "1.0.0",
+	"description": "Attach callbacks to sets of async tasks",
+	"main": "index.js",
+	"scripts": {
+		"test": "node test/main.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/calebsander/simultaneity.git"
+	},
+	"keywords": [
+		"simultaneity",
+		"async",
+		"tasks",
+		"callback"
+	],
+	"author": "Caleb Sander",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/calebsander/simultaneity/issues"
+	},
+	"homepage": "https://github.com/calebsander/simultaneity#readme"
+}
