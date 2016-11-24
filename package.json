@@ -1,6 +1,6 @@
 {
 	"name": "simultaneity",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Attach callbacks to sets of async tasks",
 	"main": "index.js",
 	"scripts": {
