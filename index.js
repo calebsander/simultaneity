@@ -46,6 +46,7 @@ module.exports = class Simultaneity {
 			throw e
 		}
 	}
+	//Forcibly call the callback for each started Simultaneity that has not yet ended
 	static endAll() {
 		for (const openSimultaneity of openSimultaneities) openSimultaneity.done()
 		openSimultaneities.clear()
