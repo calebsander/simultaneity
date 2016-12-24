@@ -8,7 +8,7 @@ for (let i = 1; i <= NUMBERS; i++) {
 const TIMEOUT_INCREMENT = 10
 const numberSet = new Set
 numberList.forEach((number, index) => {
-	s.addTask(() => {
+	s.addTask(s => {
 		setTimeout(() => {
 			numberSet.add(number)
 			s.taskFinished()

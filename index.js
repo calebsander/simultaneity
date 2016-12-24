@@ -4,14 +4,21 @@ const openSimultaneities = new Set
 	Runs multiple asynchronous tasks with a callback for when they have all finished
 	Usage:
 	const s = new Simultaneity
-	s.addTask(() => {
-		asynchSomething(() => {
-			...
-			s.taskFinished()
+	s
+		.addTask(s => {
+			asynchSomething(data => {
+				...
+				s.taskFinished()
+			})
 		})
-	})
-	...
-	s.callback(() => {...})
+		.addTask(s => {
+			asynchSomething2(data => {
+				s.taskFinished()
+			})
+		})
+		...
+		.catch(err => {...})
+		.callback(() => {...})
 */
 module.exports = class Simultaneity {
 	constructor() {
@@ -21,6 +28,7 @@ module.exports = class Simultaneity {
 	//Adds a routine to be executed to start an asynchronous task
 	addTask(start) {
 		this.tasks.add(start)
+		return this
 	}
 	//Should be called whenever an asynchronous task completes
 	taskFinished() {
@@ -30,20 +38,25 @@ module.exports = class Simultaneity {
 			this.done()
 		}
 	}
+	//Specify what to do if an error is thrown when starting tasks
+	catch(errorCallback) {
+		this.errorCallback = errorCallback
+		return this
+	}
 	//Set a callback for when all the tasks finish and start all the tasks
 	callback(callback) {
 		if (!this.tasks.size) {
-			callback()
+			setImmediate(callback)
 			return
 		}
 		this.done = callback
 		openSimultaneities.add(this)
 		try {
-			for (const startTask of this.tasks) startTask()
+			for (const startTask of this.tasks) startTask(this)
 		}
-		catch (e) {
-			callback()
-			throw e
+		catch (err) {
+			if (this.errorCallback) this.errorCallback(err)
+			else throw err
 		}
 	}
 	//Forcibly call the callback for each started Simultaneity that has not yet ended
